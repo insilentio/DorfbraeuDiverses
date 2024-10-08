@@ -1,0 +1,13 @@
+# GnuCash paths
+gc:
+  path:
+    /Users/Daniel/Dorfbräu/Buchhaltung/GnuCash/
+  file:
+    Buchhaltung.gnucash
+  backup:
+    Backup/
+
+# Admin Tool paths    
+at:
+  path:
+    /Users/Daniel/Dorfbräu/Dokumente/AdminTool/
