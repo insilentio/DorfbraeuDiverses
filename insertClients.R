@@ -55,16 +55,16 @@ crm_df <- orders |>
          currency = "4860173d4e644de98bcb4e491e465ff5",
          tax_override = 0,
          addr_name = paste(prename, lastname),
-         addr_addr1 = address,
-         addr_addr2 = "",
+         addr_addr1 = str_extract(address, "^.*(?=\\,)"),
+         addr_addr2 = str_extract(address, "(?<=(\\,\\ ))[0-9]{4}.*$"),
          addr_addr3 = "",
          addr_addr4 = "",
          addr_phone = phone,
          addr_fax = "",
          addr_email = email,
          shipaddr_name = "",
-         shipaddr_addr1 = billingAddress,
-         shipaddr_addr2 = "",
+         shipaddr_addr1 = str_extract(billingAddress, "^.*(?=\\,)"),
+         shipaddr_addr2 = str_extract(billingAddress, "(?<=(\\,\\ ))[0-9]{4}.*$"),
          shipaddr_addr3 = "",
          shipaddr_addr4 = "",
          shipaddr_phone = "",
@@ -117,9 +117,11 @@ upd_stmt <-  "UPDATE customers AS c
               			notes = t.notes,
               			addr_name = t.addr_name,
               			addr_addr1 = t.addr_addr1,
+              			addr_addr2 = t.addr_addr2,
               			addr_phone = t.addr_phone,
               			addr_email = t.addr_email,
-              			shipaddr_addr1 = t.shipaddr_addr1
+              			shipaddr_addr1 = t.shipaddr_addr1,
+              			shipaddr_addr2 = t.shipaddr_addr2
               FROM temp t
               WHERE c.id = t.id"
 dbSendStatement(acc_con, upd_stmt)
