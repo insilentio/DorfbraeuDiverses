@@ -12,7 +12,7 @@ library(yaml)
 # read the config file
 conf <- read_yaml("config.yaml")
 
-# backup the accounting DB
+# back up the accounting DB
 system(paste("cp",
              paste0(conf$gc$path, conf$gc$file),
              paste0(conf$gc$path, conf$gc$backup, str_extract(conf$gc$file, ".*\\."),
@@ -32,6 +32,8 @@ crm_con <- dbConnect(
   server   = conf$at$server,
   port   = conf$at$port
 )
+# read the 2 necessary tables; we need only the customers where the paymentMethod of at least
+# 1 order is invoice
 clients <- dbGetQuery(crm_con, "SELECT * FROM clients")
 orders <- dbGetQuery(crm_con,  
                      "SELECT id AS orderId, clientId, paymentMethod
